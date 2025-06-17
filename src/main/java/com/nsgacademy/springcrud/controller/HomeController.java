@@ -1,6 +1,8 @@
 package com.nsgacademy.springcrud.controller;
 
+import com.nsgacademy.springcrud.model.Student;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -19,7 +21,8 @@ public class HomeController {
         return "student-form";
     }
     @RequestMapping(path="/insert", method = RequestMethod.POST)
-    public String Insert(){
+    public String Insert(@ModelAttribute Student student){
+        System.out.println(student);
         return "student-list";
     }
     @RequestMapping(path="/update", method = RequestMethod.POST)
