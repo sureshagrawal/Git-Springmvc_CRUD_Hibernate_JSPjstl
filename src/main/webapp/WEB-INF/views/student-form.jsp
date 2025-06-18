@@ -15,24 +15,43 @@
         <h1 class="text-center">CRUD MVC APPLICATION</h1>
         <h3 class="text-center">Using Spring, Hibernate(JPA) AND JSP(JSTL+EL)</h3>
 
-        <form action="insert" method="POST">
+        <c:set var="isEdit" value="${not empty student}" />
+
+        <h2>
+            <c:choose>
+                <c:when test="${isEdit}">Edit Student</c:when>
+                <c:otherwise>Add New Student</c:otherwise>
+            </c:choose>
+        </h2>
+
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger">${error}</div>
+        </c:if>
+
+
+        <form action="${isEdit ? 'update' : 'insert'}" method="POST">
+
+            <c:if test="${isEdit}">
+                <input type="hidden" name="id" value="${student.id}" />
+            </c:if>
+
             <div class="mb-3">
                 <label class="form-label">Name</label>
                 <input type="text" class="form-control" placeholder="Enter your name" name="name"
-                       value="" id="stnameid" required
+                       value="${student.name}" id="stnameid" required
                        pattern="[A-Za-z\s]+" title="Name should contain only letters and spaces.">
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Email</label>
                 <input type="email" class="form-control" placeholder="Enter your Email" name="email"
-                       value="" id="stemailid" required>
+                       value="${student.email}" id="stemailid" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Mobile</label>
                 <input type="text" class="form-control" placeholder="Enter your Mobile" name="mobile"
-                       value="" id="stmobileid" required
+                       value="${student.mobile}" id="stmobileid" required
                        pattern="\d{10}" title="Mobile number should be 10 digits.">
             </div>
 

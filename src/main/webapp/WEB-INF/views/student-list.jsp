@@ -20,6 +20,10 @@
         <i class="fa-solid fa-user-plus m-1"></i>Add Student
     </a>
 
+    <c:if test="${not empty param.success}">
+        <div class="alert alert-success text-center">${param.success}</div>
+    </c:if>
+
     <table class="table table-hover table-striped">
         <thead class="bg-dark text-light">
         <tr>
@@ -30,36 +34,31 @@
             <th scope="col">Operations</th>
         </tr>
         </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Suresh Agrawal</td>
-                <td>suresh.rp.agrawal@gmail.com</td>
-                <td>9225836668</td>
-                <td>
-                    <a href="edit?id=1" class="btn btn-info">
-                        <i class="fa-solid fa-pen-to-square mx-1"></i>Update
-                    </a>
-                    <a href="delete?id=1" class="btn btn-danger" onclick="return confirm('Are you sure to delete?');">
-                        <i class="fa-solid fa-trash-can mx-1"></i>Delete
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Mukesh Jain</td>
-                <td>mukesh.ch.jain@gmail.com</td>
-                <td>9823789495</td>
-                <td>
-                    <a href="edit?id=2" class="btn btn-info">
-                        <i class="fa-solid fa-pen-to-square mx-1"></i>Update
-                    </a>
-                    <a href="delete?id=2" class="btn btn-danger" onclick="return confirm('Are you sure to delete?');">
-                        <i class="fa-solid fa-trash-can mx-1"></i>Delete
-                    </a>
-                </td>
-            </tr>
-        </tbody>
+        <c:choose>
+            <c:when test="${not empty listStudents}">
+                <c:forEach var="student" items="${listStudents}" varStatus="loop">
+                    <tr>
+                        <th scope="row">${loop.index + 1}</th>
+                        <td>${student.name}</td>
+                        <td>${student.email}</td>
+                        <td>${student.mobile}</td>
+                        <td>
+                            <a href="edit?id=${student.id}" class="btn btn-info">
+                                <i class="fa-solid fa-pen-to-square mx-1"></i>Update
+                            </a>
+                            <a href="delete?id=${student.id}" class="btn btn-danger" onclick="return confirm('Are you sure to delete?');">
+                                <i class="fa-solid fa-trash-can mx-1"></i>Delete
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <tr>
+                    <td colspan="5" class="text-center">No students found.</td>
+                </tr>
+            </c:otherwise>
+        </c:choose>
     </table>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
