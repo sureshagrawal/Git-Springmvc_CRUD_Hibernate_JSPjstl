@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class StudentController {
@@ -27,32 +26,33 @@ public class StudentController {
     }
 
     @GetMapping("/students/new")
-    public String newStudentForm(Model model) {
-//        model.addAttribute("student", new Student());
+    public String newStudentForm() {
         return "student-form";
     }
 
     @PostMapping("/students/save")
-    public String saveStudent(@ModelAttribute Student student, Model model) {
+    public String saveStudent(@ModelAttribute Student student, Model model, RedirectAttributes redirectAttributes) {
         String error = validateForm(student.getName(), student.getEmail(), student.getMobile());
         if (error != null) {
             model.addAttribute("error", error);
-            model.addAttribute("student", student); // retain values on form
+            model.addAttribute("student", student); // repopulate
             return "student-form";
         }
 
         studentDAO.save(student);
-        return "redirect:/students?success=Added";
+        redirectAttributes.addFlashAttribute("success", "Student added successfully!");
+        return "redirect:/students";
     }
 
     @GetMapping("/students/edit")
     public String editStudent(@RequestParam("id") int id, Model model) {
-        model.addAttribute("student", studentDAO.findById(id));
+        Student student = studentDAO.findById(id);
+        model.addAttribute("student", student);
         return "student-form";
     }
 
     @PostMapping("/students/update")
-    public String updateStudent(@ModelAttribute Student student, Model model) {
+    public String updateStudent(@ModelAttribute Student student, Model model, RedirectAttributes redirectAttributes) {
         String error = validateForm(student.getName(), student.getEmail(), student.getMobile());
         if (error != null) {
             model.addAttribute("error", error);
@@ -61,13 +61,15 @@ public class StudentController {
         }
 
         studentDAO.update(student);
-        return "redirect:/students?success=Updated";
+        redirectAttributes.addFlashAttribute("success", "Student updated successfully!");
+        return "redirect:/students";
     }
 
     @GetMapping("/students/delete")
-    public String deleteStudent(@RequestParam("id") int id) {
+    public String deleteStudent(@RequestParam("id") int id, RedirectAttributes redirectAttributes) {
         studentDAO.delete(id);
-        return "redirect:/students?success=Deleted";
+        redirectAttributes.addFlashAttribute("success", "Student deleted successfully!");
+        return "redirect:/students";
     }
 
     private String validateForm(String name, String email, String mobile) {

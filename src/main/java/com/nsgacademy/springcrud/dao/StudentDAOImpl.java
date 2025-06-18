@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public class StudentDAOImpl implements StudentDAO {
-
     @Override
     public void save(Student student) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -27,7 +26,7 @@ public class StudentDAOImpl implements StudentDAO {
     @Override
     public Student findById(int id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Student.class, id);
+            return session.find(Student.class, id);
         }
     }
 
@@ -51,7 +50,7 @@ public class StudentDAOImpl implements StudentDAO {
     public void delete(int id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction tx = session.beginTransaction();
-            Student student = session.get(Student.class, id);
+            Student student = session.find(Student.class, id);
             if (student != null) session.remove(student);
             tx.commit();
         }

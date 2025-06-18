@@ -20,8 +20,8 @@
         <i class="fa-solid fa-user-plus m-1"></i>Add Student
     </a>
 
-    <c:if test="${not empty param.success}">
-        <div class="alert alert-success text-center">${param.success}</div>
+    <c:if test="${not empty success}">
+        <div class="alert alert-success text-center">${success}</div>
     </c:if>
 
     <table class="table table-hover table-striped">
