@@ -11,69 +11,49 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class StudentDAOImpl implements StudentDAO{
+public class StudentDAOImpl implements StudentDAO {
+
     @Override
-    public void insertStudent(Student student) {
-        Transaction tx = null;
+    public void save(Student student) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
+            Transaction tx = session.beginTransaction();
             session.persist(student);
             tx.commit();
         } catch (HibernateException e) {
-            if (tx != null) tx.rollback();
-            throw new DAOException("Error inserting student", e);
+            throw new DAOException("Error saving student", e);
         }
     }
 
     @Override
-    public Student selectStudent(int id) {
+    public Student findById(int id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.find(Student.class, id);
-        } catch (HibernateException e) {
-            throw new DAOException("Error retrieving student with ID: " + id, e);
+            return session.get(Student.class, id);
         }
     }
 
     @Override
-    public List<Student> selectAllStudents() {
+    public List<Student> findAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Student", Student.class).list();
-        } catch (HibernateException e) {
-            throw new DAOException("Error retrieving student list", e);
+            return session.createQuery("FROM Student", Student.class).list();
         }
     }
 
     @Override
-    public boolean updateStudent(Student student) {
-        Transaction tx = null;
+    public void update(Student student) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
+            Transaction tx = session.beginTransaction();
             session.merge(student);
             tx.commit();
-            return true;
-        } catch (HibernateException e) {
-            if (tx != null) tx.rollback();
-            throw new DAOException("Error updating student", e);
         }
     }
 
     @Override
-    public boolean deleteStudent(int id) {
-        Transaction tx = null;
+    public void delete(int id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            Student student = session.find(Student.class, id);
-            if (student != null) {
-                session.remove(student);
-                tx.commit();
-                return true;
-            } else {
-                if (tx != null) tx.rollback();
-                return false;
-            }
-        } catch (HibernateException e) {
-            if (tx != null) tx.rollback();
-            throw new DAOException("Error deleting student with ID: " + id, e);
+            Transaction tx = session.beginTransaction();
+            Student student = session.get(Student.class, id);
+            if (student != null) session.remove(student);
+            tx.commit();
         }
     }
 }

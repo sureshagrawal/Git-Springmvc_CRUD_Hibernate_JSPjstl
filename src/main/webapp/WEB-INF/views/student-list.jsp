@@ -16,7 +16,7 @@
     <h1 class="text-center">CRUD MVC APPLICATION</h1>
     <h3 class="text-center">Using Spring, Hibernate(JPA) AND JSP(JSTL+EL)</h3>
 
-    <a href="new" class="btn btn-primary mb-5">
+    <a href="students/new" class="btn btn-primary mb-5">
         <i class="fa-solid fa-user-plus m-1"></i>Add Student
     </a>
 
@@ -35,18 +35,18 @@
         </tr>
         </thead>
         <c:choose>
-            <c:when test="${not empty listStudents}">
-                <c:forEach var="student" items="${listStudents}" varStatus="loop">
+            <c:when test="${not empty students}">
+                <c:forEach var="student" items="${students}" varStatus="loop">
                     <tr>
                         <th scope="row">${loop.index + 1}</th>
                         <td>${student.name}</td>
                         <td>${student.email}</td>
                         <td>${student.mobile}</td>
                         <td>
-                            <a href="edit?id=${student.id}" class="btn btn-info">
+                            <a href="students/edit?id=${student.id}" class="btn btn-info">
                                 <i class="fa-solid fa-pen-to-square mx-1"></i>Update
                             </a>
-                            <a href="delete?id=${student.id}" class="btn btn-danger" onclick="return confirm('Are you sure to delete?');">
+                            <a href="students/delete?id=${student.id}" class="btn btn-danger" onclick="return confirm('Are you sure to delete?');">
                                 <i class="fa-solid fa-trash-can mx-1"></i>Delete
                             </a>
                         </td>

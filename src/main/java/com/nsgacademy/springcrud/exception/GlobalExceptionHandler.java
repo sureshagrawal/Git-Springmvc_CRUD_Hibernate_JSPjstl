@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(DAOException.class)
-    public String handleDAOException(DAOException ex, Model model) {
-        model.addAttribute("errorMessage", "Database Error: " + ex.getMessage());
+    public String handleDAOException(DAOException e, Model model) {
+        model.addAttribute("errorMessage", "Database error: " + e.getMessage());
         return "error";
     }
 
     @ExceptionHandler(Exception.class)
-    public String handleGenericException(Exception ex, Model model) {
-        model.addAttribute("errorMessage", "Unexpected Error: " + ex.getMessage());
+    public String handleException(Exception e, Model model) {
+        model.addAttribute("errorMessage", "Unexpected error: " + e.getMessage());
         return "error";
     }
 }

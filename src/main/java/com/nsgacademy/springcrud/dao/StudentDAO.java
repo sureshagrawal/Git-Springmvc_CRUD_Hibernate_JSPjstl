@@ -5,11 +5,11 @@ import com.nsgacademy.springcrud.model.Student;
 import java.util.List;
 
 public interface StudentDAO {
-    void insertStudent(Student student);
-    Student selectStudent(int id);
-    List<Student> selectAllStudents();
-    boolean updateStudent(Student student);
-    boolean deleteStudent(int id);
+    void save(Student student);
+    Student findById(int id);
+    List<Student> findAll();
+    void update(Student student);
+    void delete(int id);
 }
 
 

@@ -29,7 +29,7 @@
         </c:if>
 
 
-        <form action="${isEdit ? 'update' : 'insert'}" method="POST">
+        <form action="${isEdit ? 'update' : 'save'}" method="POST">
 
             <c:if test="${isEdit}">
                 <input type="hidden" name="id" value="${student.id}" />
