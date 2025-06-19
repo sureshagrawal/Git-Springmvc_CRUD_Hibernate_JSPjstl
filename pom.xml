@@ -58,6 +58,26 @@
       <version>3.0.1</version>
     </dependency>
 
+    <!-- Transaction Management -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>6.1.4</version>
+    </dependency>
+
+    <!-- Spring JDBC for DriverManagerDataSource -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>6.1.4</version>
+    </dependency>
+
+    <!-- Spring ORM for HibernateTransactionManager -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>6.1.4</version>
+    </dependency>
 
     <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
     <dependency>
