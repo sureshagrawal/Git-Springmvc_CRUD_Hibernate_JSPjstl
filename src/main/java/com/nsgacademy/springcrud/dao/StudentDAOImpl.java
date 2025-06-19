@@ -2,57 +2,71 @@ package com.nsgacademy.springcrud.dao;
 
 import com.nsgacademy.springcrud.exception.DAOException;
 import com.nsgacademy.springcrud.model.Student;
-import com.nsgacademy.springcrud.utils.HibernateUtil;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
+@Transactional
 public class StudentDAOImpl implements StudentDAO {
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    private Session getSession() {
+        return sessionFactory.getCurrentSession();
+    }
+
     @Override
     public void save(Student student) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Transaction tx = session.beginTransaction();
-            session.persist(student);
-            tx.commit();
-        } catch (HibernateException e) {
+        try {
+            getSession().persist(student);
+        } catch (Exception e) {
             throw new DAOException("Error saving student", e);
         }
     }
 
     @Override
     public Student findById(int id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.find(Student.class, id);
+        try {
+            return getSession().find(Student.class, id);
+        } catch (Exception e) {
+            throw new DAOException("Error finding student with ID: " + id, e);
         }
     }
 
     @Override
     public List<Student> findAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Student", Student.class).list();
+        try {
+            return getSession().createQuery("FROM Student", Student.class).getResultList();
+        } catch (Exception e) {
+            throw new DAOException("Error retrieving student list", e);
         }
     }
 
     @Override
     public void update(Student student) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Transaction tx = session.beginTransaction();
-            session.merge(student);
-            tx.commit();
+        try {
+            getSession().merge(student);
+        } catch (Exception e) {
+            throw new DAOException("Error updating student", e);
         }
     }
 
     @Override
     public void delete(int id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Transaction tx = session.beginTransaction();
-            Student student = session.find(Student.class, id);
-            if (student != null) session.remove(student);
-            tx.commit();
+        try {
+            Student student = getSession().find(Student.class, id);
+            if (student != null) {
+                getSession().remove(student);
+            }
+        } catch (Exception e) {
+            throw new DAOException("Error deleting student with ID: " + id, e);
         }
     }
+
 }

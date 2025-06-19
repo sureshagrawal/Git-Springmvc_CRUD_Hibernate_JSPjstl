@@ -9,23 +9,13 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false)
+    @Column(nullable = false)
     private String email;
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", mobile='" + mobile + '\'' +
-                '}';
-    }
-
-    @Column(name = "mobile", nullable = false)
+    @Column(nullable = false)
     private String mobile;
 
     public Student() {}
@@ -43,7 +33,7 @@ public class Student {
         this.mobile = mobile;
     }
 
-    // Getters and Setters (same as before)
+    // Getters and Setters
 
     public int getId() {
         return id;
@@ -76,5 +66,14 @@ public class Student {
     public void setMobile(String mobile) {
         this.mobile = mobile;
     }
-}
 
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
+                '}';
+    }
+}
